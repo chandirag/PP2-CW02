@@ -3,6 +3,7 @@ package sample;
 public class StudentMember extends DefaultMember {
     private String schoolName;
 
+    public StudentMember() {};
     public StudentMember(int membershipNumber, String name, String schoolName) {
         super(membershipNumber, name);
         this.schoolName = schoolName;

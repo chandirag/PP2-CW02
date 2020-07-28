@@ -40,6 +40,9 @@ public class Database {
 
     public static DBCollection createDefaultMember(int id, String name) {
         DefaultMember defaultMember = new DefaultMember(id, name);
+        defaultMember.setMembershipNumber(id);
+        defaultMember.setName(name);
+        defaultMember.setMemberType("Default");
         DBObject doc = Database.createDBObject(defaultMember);
         DB db = Database.connectToDatabase();
         DBCollection collection = db.getCollection("users");
@@ -49,6 +52,10 @@ public class Database {
 
     public static void createStudentMember(int id, String name, String schoolName) {
         StudentMember studentMember = new StudentMember(id, name, schoolName);
+        studentMember.setMembershipNumber(id);
+        studentMember.setName(name);
+        studentMember.setSchoolName(schoolName);
+        studentMember.setMemberType("Student");
         DBObject doc = Database.createDBObject(studentMember);
         DB db = Database.connectToDatabase();
         DBCollection collection = db.getCollection("users");
@@ -60,7 +67,7 @@ public class Database {
         over60Member.setMembershipNumber(id);
         over60Member.setName(name);
         over60Member.setAge(age);
-        over60Member.memberType = "Over60";
+        over60Member.setMemberType("Over60");
         DBObject doc = Database.createDBObject(over60Member);
         DB db = Database.connectToDatabase();
         DBCollection collection = db.getCollection("users");
@@ -75,6 +82,42 @@ public class Database {
         DBCollection collection = db.getCollection("users");
         return collection.findOne(query);
     }
+
+    public static void printExistingMembers(){
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        DBCursor cursor1 = col.find();
+        DBCursor cursor2 = col.find();
+        DBCursor cursor3 = col.find();
+        System.out.println("-------------------------------------");
+        System.out.format("%-16s %-18s %-17s %n", "Membership No","Name", "Membership Type");
+        while (cursor1.hasNext() && cursor2.hasNext()){
+            Object id = cursor1.next().get("_id");
+            Object name = cursor2.next().get("name");
+            Object memberType = cursor3.next().get("member-type");
+            System.out.format("%-16s %-18s %-17s %n", id.toString(), name.toString(), memberType.toString());
+        }
+        System.out.println();
+    }
+
+    public static void sortMembers(String object, int number){
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        DBCursor cursor1 = col.find().sort(new BasicDBObject(object,number));
+        DBCursor cursor2 = col.find().sort(new BasicDBObject(object,number));
+        DBCursor cursor3 = col.find().sort(new BasicDBObject(object,number));
+        System.out.println("-------------------------------------");
+        System.out.format("%-16s %-18s %-17s %n", "Membership No","Name", "Membership Type");
+        while (cursor1.hasNext() && cursor2.hasNext()){
+            Object id = cursor1.next().get("_id");
+            Object name = cursor2.next().get("name");
+            Object memberType = cursor3.next().get("member-type");
+            System.out.format("%-16s %-18s %-17s %n", id.toString(), name.toString(), memberType.toString());
+        }
+        System.out.println();
+    }
+
+
 }
 
 

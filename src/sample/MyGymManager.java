@@ -7,18 +7,20 @@ import com.mongodb.DBObject;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MyGymManager implements GymManager {
+public class MyGymManager implements GymManager  {
     private static boolean addingMember;
     private static boolean deletingMember;
 
     public static void startUpMenu() {
         Scanner scanner = new Scanner(System.in);
+        MyGymManager myGymManager = new MyGymManager();
+        System.out.println("------------------------------------");
         System.out.println("Please select an option below to continue:");
         System.out.println(
                 "1 : Add new Member\n" +
                 "2 : Delete existing Member\n" +
                 "3 : Print list of existing members\n" +
-                "4 : Sort list\n" +
+                "4 : Sort list of existing members by name in ascending order\n" +
                 "5 : Write/Save in a file list of members with relevant details\n" +
                 "6 : Open GUI\n" +
                 "7 : Exit program\n"
@@ -28,10 +30,9 @@ public class MyGymManager implements GymManager {
         switch (userSelectedOption) {
             case 1:
                 addingMember = true;
-                MyGymManager addMember = new MyGymManager();
                 while (addingMember) {
                     try {
-                        addMember.addNewMember();
+                        myGymManager.addNewMember();
                     } catch (InputMismatchException e) {
                         System.out.println("Invalid input.");
                     } catch (IllegalArgumentException e) {
@@ -41,21 +42,22 @@ public class MyGymManager implements GymManager {
                 break;
             case 2:
                 deletingMember = true;
-                MyGymManager deleteMember = new MyGymManager();
                 while (deletingMember) {
                     Scanner deleteIDScanner = new Scanner(System.in);
                     try {
                         System.out.print("Enter the Membership ID of record that needs to be deleted: ");
                         int idOfMemberToBeDeleted = deleteIDScanner.nextInt();
-                        deleteMember.deleteExistingMember(idOfMemberToBeDeleted);
+                        myGymManager.deleteExistingMember(idOfMemberToBeDeleted);
                     } catch (InputMismatchException e) {
                         System.out.println("Invalid input. Enter a valid Membership ID.\n");
                     }
                 }
                 break;
             case 3:
+                myGymManager.printExistingMembers();
                 break;
             case 4:
+                myGymManager.sort();
                 break;
             case 5:
                 break;
@@ -66,7 +68,6 @@ public class MyGymManager implements GymManager {
                 System.exit(0);
             default:
                 System.out.println("Invalid input");
-                System.out.println("-------------------------------------");
         }
     }
 
@@ -136,7 +137,6 @@ public class MyGymManager implements GymManager {
                 System.out.println("A member with the membership no " + membershipID + " already exists.");
             }
         } else if (userType == 4) {
-            System.out.println("-------------------------------------\n");
             addingMember = false;
         } else {
             System.out.println("Invalid input.");
@@ -155,17 +155,16 @@ public class MyGymManager implements GymManager {
             System.out.println("Member deleted.");
             deletingMember = false;
         }
-        System.out.println("----------------------------------");
     }
 
     @Override
     public void printExistingMembers() {
-
+        Database.printExistingMembers();
     }
 
     @Override
     public void sort() {
-
+        Database.sortMembers("name", 1);
     }
 
     @Override
