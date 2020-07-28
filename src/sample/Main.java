@@ -1,10 +1,6 @@
 package sample;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +16,7 @@ public class Main {
         while (true) {
             try {
                 MyGymManager.startUpMenu();
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException | IOException e) {
                 System.out.println("Invalid input.");
                 System.out.println("------------------------------------");
             }

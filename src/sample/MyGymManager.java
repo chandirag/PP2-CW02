@@ -4,6 +4,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ public class MyGymManager implements GymManager  {
     private static boolean addingMember;
     private static boolean deletingMember;
 
-    public static void startUpMenu() {
+    public static void startUpMenu() throws IOException {
         Scanner scanner = new Scanner(System.in);
         MyGymManager myGymManager = new MyGymManager();
         System.out.println("------------------------------------");
@@ -60,6 +61,7 @@ public class MyGymManager implements GymManager  {
                 myGymManager.sort();
                 break;
             case 5:
+                myGymManager.saveToFile();
                 break;
             case 6:
                 break;
@@ -159,17 +161,20 @@ public class MyGymManager implements GymManager  {
 
     @Override
     public void printExistingMembers() {
-        Database.printExistingMembers();
+        // Print all existing members sorted by Membership No.
+        Database.sortAndPrintExistingMembers("_id", 1);
     }
 
     @Override
     public void sort() {
-        Database.sortMembers("name", 1);
+        // Print all existing members sorted by Name
+        Database.sortAndPrintExistingMembers("name", 1);
     }
 
     @Override
-    public void saveToFile() {
-
+    public void saveToFile() throws IOException {
+        Database.saveToFile("MemberData.txt", "_id", 1);
+        System.out.println("Data saved to file.");
     }
 
 }

@@ -3,6 +3,8 @@ package sample;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 
+import java.io.*;
+
 public class Database {
     public static DB connectToDatabase() {
         MongoClient mongoClient = new MongoClient("localhost", 27017);
@@ -83,24 +85,7 @@ public class Database {
         return collection.findOne(query);
     }
 
-    public static void printExistingMembers(){
-        DB db = Database.connectToDatabase();
-        DBCollection col = db.getCollection("users");
-        DBCursor cursor1 = col.find();
-        DBCursor cursor2 = col.find();
-        DBCursor cursor3 = col.find();
-        System.out.println("-------------------------------------");
-        System.out.format("%-16s %-18s %-17s %n", "Membership No","Name", "Membership Type");
-        while (cursor1.hasNext() && cursor2.hasNext()){
-            Object id = cursor1.next().get("_id");
-            Object name = cursor2.next().get("name");
-            Object memberType = cursor3.next().get("member-type");
-            System.out.format("%-16s %-18s %-17s %n", id.toString(), name.toString(), memberType.toString());
-        }
-        System.out.println();
-    }
-
-    public static void sortMembers(String object, int number){
+    public static void sortAndPrintExistingMembers(String object, int number){
         DB db = Database.connectToDatabase();
         DBCollection col = db.getCollection("users");
         DBCursor cursor1 = col.find().sort(new BasicDBObject(object,number));
@@ -115,6 +100,30 @@ public class Database {
             System.out.format("%-16s %-18s %-17s %n", id.toString(), name.toString(), memberType.toString());
         }
         System.out.println();
+    }
+
+    public static void saveToFile(String fileName, String object, int number) throws IOException {
+        File file = new File(fileName);
+        PrintWriter printWriter = new PrintWriter(file);
+        DB db = Database.connectToDatabase();
+        StringBuilder fileString= new StringBuilder();
+        DBCollection col = db.getCollection("users");
+        DBCursor cursor1 = col.find().sort(new BasicDBObject(object,number));
+        DBCursor cursor2 = col.find().sort(new BasicDBObject(object,number));
+        DBCursor cursor3 = col.find().sort(new BasicDBObject(object,number));
+        DBCursor cursor4 = col.find().sort(new BasicDBObject(object,number));
+        DBCursor cursor5 = col.find().sort(new BasicDBObject(object,number));
+        String output = String.format("%-16s %-18s %-17s %-18s %-15s %n", "Membership No","Name", "Membership Type", "School Name", "Age");
+        while (cursor1.hasNext() || cursor2.hasNext() || cursor3.hasNext() || cursor4.hasNext()) {
+            Object id = cursor1.next().get("_id");
+            Object name = cursor2.next().get("name");
+            Object memberType = cursor3.next().get("member-type");
+            Object schoolName = cursor4.next().get("school-name");
+            Object age = cursor5.next().get("age");
+            fileString.append(String.format("%-16s %-18s %-17s %-18s %-15s %n", id, name, memberType, schoolName, age));
+        }
+        printWriter.write(output + "\n" + fileString);
+        printWriter.close();
     }
 
 
