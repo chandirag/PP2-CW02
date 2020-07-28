@@ -4,8 +4,9 @@ public class Over60Member extends DefaultMember {
     private int age;
 
     public Over60Member() {};
-    public Over60Member(int membershipNumber, String name, int age) {
-        super(membershipNumber, name);
+
+    public Over60Member(int membershipNumber, String name, String membershipDate, double height, double weight, int age) {
+        super(membershipNumber, name, membershipDate, height, weight);
         this.age = age;
         this.memberType = "Over 60";
     }

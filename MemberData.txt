@@ -1,10 +1,8 @@
-Membership No    Name               Membership Type   School Name        Age             
+Membership No    Membership Type    Name            Date Joined       Height     Weight     School Name Age        
 
-2019420          Zebra              Default           null               null            
-2019555          Nenuka             Default           null               null            
-2019593          Chandira           Default           null               null            
-2019633          Nisal              Default           null               null            
-2019634          Nadil              Student           Royal College      null            
-2019696          Apple              Default           null               null            
-2019888          Luchitha           Over60            null               69              
-2019999          Devan              Default           null               null            
+2019420          Default            Zebrea          27/07/2020        190.0      77.0       null       null       
+2019593          Default            Chandira        22/03/2020        185.0      85.0       null       null       
+2019633          Over60             Devan           28/05/2020        160.0      60.0       null       70         
+2019634          Default            Jahzan          29/05/2020        190.0      55.0       null       null       
+2019644          Student            Nadil           23/04/2020        165.0      65.0       Royal      null       
+2019999          Default            Apple           24/07/2020        190.0      66.0       null       null       

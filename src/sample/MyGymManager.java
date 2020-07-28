@@ -3,12 +3,14 @@ package sample;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MyGymManager implements GymManager  {
+public class MyGymManager extends Application implements GymManager  {
     private static boolean addingMember;
     private static boolean deletingMember;
 
@@ -80,6 +82,9 @@ public class MyGymManager implements GymManager  {
         Scanner nameScanner = new Scanner(System.in);
         Scanner schoolScanner = new Scanner(System.in);
         Scanner ageScanner = new Scanner(System.in);
+        Scanner dateScanner = new Scanner(System.in);
+        Scanner heightScanner = new Scanner(System.in);
+        Scanner weightScanner = new Scanner(System.in);
         System.out.println("-------------------------------------");
         System.out.println(
                 "1 : Default Member\n" +
@@ -97,7 +102,13 @@ public class MyGymManager implements GymManager  {
             if (object1 == null) {
                 System.out.print("Enter name: ");
                 String userName = nameScanner.nextLine();
-                Database.createDefaultMember(membershipID, userName);
+                System.out.print("Enter date joined:");
+                String membershipDate = dateScanner.nextLine();
+                System.out.print("Enter height:");
+                int height = heightScanner.nextInt();
+                System.out.print("Enter weight:");
+                int weight = weightScanner.nextInt();
+                Database.createDefaultMember(membershipID, userName, membershipDate, height, weight);
                 System.out.println("Member added to database successfully.");
             } else {
                 System.out.println("A member with the membership no " + membershipID + " already exists.");
@@ -109,9 +120,15 @@ public class MyGymManager implements GymManager  {
             if (object1 == null) {
                 System.out.print("Enter name: ");
                 String userName = nameScanner.nextLine();
+                System.out.print("Enter date joined:");
+                String membershipDate = dateScanner.nextLine();
+                System.out.print("Enter height:");
+                int height = heightScanner.nextInt();
+                System.out.print("Enter weight:");
+                int weight = weightScanner.nextInt();
                 System.out.print("Enter school: ");
                 String school = schoolScanner.nextLine();
-                Database.createStudentMember(membershipID, userName, school);
+                Database.createStudentMember(membershipID, userName,membershipDate, height, weight, school);
                 System.out.println("Member added to database successfully.");
             } else {
                 System.out.println("A member with the membership no " + membershipID + " already exists.");
@@ -124,11 +141,17 @@ public class MyGymManager implements GymManager  {
             if (object1 == null) {
                 System.out.print("Enter name: ");
                 String userName = nameScanner.nextLine();
+                System.out.print("Enter date joined:");
+                String membershipDate = dateScanner.nextLine();
+                System.out.print("Enter height:");
+                int height = heightScanner.nextInt();
+                System.out.print("Enter weight:");
+                int weight = weightScanner.nextInt();
                 while (true) {
                     try {
                         System.out.print("Enter age: ");
                         age = ageScanner.nextInt();
-                        Database.createOver60Member(membershipID, userName, age);
+                        Database.createOver60Member(membershipID, userName, membershipDate, height, weight, age);
                         break;
                     } catch (IllegalArgumentException e) {
                         System.out.println("Age should be above 60.\n");
@@ -177,4 +200,13 @@ public class MyGymManager implements GymManager  {
         System.out.println("Data saved to file.");
     }
 
+    @Override
+    public void openGUI() {
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+    }
 }

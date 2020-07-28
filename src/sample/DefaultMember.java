@@ -4,13 +4,18 @@ public class DefaultMember {
     private int membershipNumber;
     private String name;
     private String membershipDate;
+    private double weight;
+    private double height;
     String memberType;
 
     public DefaultMember() {};
-    public DefaultMember(int membershipNumber, String name) {
+    public DefaultMember(int membershipNumber, String name, String membershipDate, double height, double weight) {
         super();
         this.membershipNumber = membershipNumber;
         this.name = name;
+        this.membershipDate = membershipDate;
+        this.weight = weight;
+        this.height = height;
         this.memberType = "Default";
     }
 
@@ -36,5 +41,29 @@ public class DefaultMember {
 
     public void setMemberType(String memberType) {
         this.memberType = memberType;
+    }
+
+    public String getMembershipDate() {
+        return membershipDate;
+    }
+
+    public void setMembershipDate(String membershipDate) {
+        this.membershipDate = membershipDate;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
     }
 }
