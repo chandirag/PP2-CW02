@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static com.mongodb.client.model.Projections.include;
-
 public class MyGymManager extends Application implements GymManager  {
     private static boolean addingMember;
     private static boolean deletingMember;
@@ -200,7 +198,7 @@ public class MyGymManager extends Application implements GymManager  {
             int count = Database.getCount();
             System.out.println("Member " + deletedMemberID + " was deleted.\n" +
                     "Deleted MemberType: " + deletedMemberType + "\n" +
-                    "Free spaces left in the system: " + (5 - count));
+                    "Free spaces left in the system: " + (100 - count));
             deletingMember = false;
         }
     }
