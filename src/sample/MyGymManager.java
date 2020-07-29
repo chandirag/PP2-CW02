@@ -1,8 +1,6 @@
 package sample;
 
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
+import com.mongodb.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -10,9 +8,12 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static com.mongodb.client.model.Projections.include;
+
 public class MyGymManager extends Application implements GymManager  {
     private static boolean addingMember;
     private static boolean deletingMember;
+
 
     public static void startUpMenu() throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -33,7 +34,7 @@ public class MyGymManager extends Application implements GymManager  {
         switch (userSelectedOption) {
             case 1:
                 int count = Database.getCount();
-                if (count < 101) {
+                if (count < 100) {
                     addingMember = true;
                     while (addingMember) {
                         try {
@@ -86,107 +87,120 @@ public class MyGymManager extends Application implements GymManager  {
 
     @Override
     public void addNewMember() {
-        Scanner scanner = new Scanner(System.in);
-        Scanner idScanner = new Scanner(System.in);
-        Scanner nameScanner = new Scanner(System.in);
-        Scanner schoolScanner = new Scanner(System.in);
-        Scanner ageScanner = new Scanner(System.in);
-        Scanner dateScanner = new Scanner(System.in);
-        Scanner heightScanner = new Scanner(System.in);
-        Scanner weightScanner = new Scanner(System.in);
-        System.out.println("-------------------------------------");
-        System.out.println(
-                "1 : Default Member\n" +
-                "2 : Student Member\n" +
-                "3 : Senior Member\n"  +
-                "4 : Exit Menu\n"
-        );
-        System.out.print("What type of user do you want to create? ");
-        int userType = scanner.nextInt();
-
-        if (userType == 1) {
-            System.out.print("Enter membership number: ");
-            int membershipID = idScanner.nextInt();
-            DBObject object1 = Database.findDocumentById(membershipID);
-            if (object1 == null) {
-                System.out.print("Enter name: ");
-                String userName = nameScanner.nextLine();
-                System.out.print("Enter date joined: ");
-                String membershipDate = dateScanner.nextLine();
-                System.out.print("Enter height: ");
-                double height = heightScanner.nextDouble();
-                System.out.print("Enter weight: ");
-                double weight = weightScanner.nextDouble();
-                Database.createDefaultMember(membershipID, userName, membershipDate, height, weight);
-                System.out.println("Member added to database successfully.");
-            } else {
-                System.out.println("A member with the membership no " + membershipID + " already exists.");
-            }
-        } else if (userType == 2) {
-            System.out.print("Enter membership number: ");
-            int membershipID = idScanner.nextInt();
-            DBObject object1 = Database.findDocumentById(membershipID);
-            if (object1 == null) {
-                System.out.print("Enter name: ");
-                String userName = nameScanner.nextLine();
-                System.out.print("Enter date joined: ");
-                String membershipDate = dateScanner.nextLine();
-                System.out.print("Enter height: ");
-                double height = heightScanner.nextDouble();
-                System.out.print("Enter weight: ");
-                double weight = weightScanner.nextDouble();
-                System.out.print("Enter school: ");
-                String school = schoolScanner.nextLine();
-                Database.createStudentMember(membershipID, userName,membershipDate, height, weight, school);
-                System.out.println("Member added to database successfully.");
-            } else {
-                System.out.println("A member with the membership no " + membershipID + " already exists.");
-            }
-        } else if (userType == 3) {
-            int age;
-            System.out.print("Enter membership number: ");
-            int membershipID = idScanner.nextInt();
-            DBObject object1 = Database.findDocumentById(membershipID);
-            if (object1 == null) {
-                System.out.print("Enter name: ");
-                String userName = nameScanner.nextLine();
-                System.out.print("Enter date joined: ");
-                String membershipDate = dateScanner.nextLine();
-                System.out.print("Enter height: ");
-                double height = heightScanner.nextDouble();
-                System.out.print("Enter weight: ");
-                double weight = weightScanner.nextDouble();
-                while (true) {
-                    try {
-                        System.out.print("Enter age: ");
-                        age = ageScanner.nextInt();
-                        Database.createOver60Member(membershipID, userName, membershipDate, height, weight, age);
-                        break;
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Age should be above 60.\n");
-                    }
-                }
-                System.out.println("Member added to database successfully.");
-            } else {
-                System.out.println("A member with the membership no " + membershipID + " already exists.");
-            }
-        } else if (userType == 4) {
+        int count = Database.getCount();
+        if (count >= 100) {
+            System.out.println("Member limit reached.");
             addingMember = false;
         } else {
-            System.out.println("Invalid input.");
+            Scanner scanner = new Scanner(System.in);
+            Scanner idScanner = new Scanner(System.in);
+            Scanner nameScanner = new Scanner(System.in);
+            Scanner schoolScanner = new Scanner(System.in);
+            Scanner ageScanner = new Scanner(System.in);
+            Scanner dateScanner = new Scanner(System.in);
+            Scanner heightScanner = new Scanner(System.in);
+            Scanner weightScanner = new Scanner(System.in);
+            System.out.println("-------------------------------------");
+            System.out.println(
+                    "1 : Default Member\n" +
+                            "2 : Student Member\n" +
+                            "3 : Senior Member\n"  +
+                            "4 : Exit Menu\n"
+            );
+            System.out.print("What type of user do you want to create? ");
+            int userType = scanner.nextInt();
+
+            if (userType == 1) {
+                System.out.print("Enter membership number: ");
+                int membershipID = idScanner.nextInt();
+                DBObject object1 = Database.findDocumentById(membershipID);
+                if (object1 == null) {
+                    System.out.print("Enter name: ");
+                    String userName = nameScanner.nextLine();
+                    System.out.print("Enter date joined: ");
+                    String membershipDate = dateScanner.nextLine();
+                    System.out.print("Enter height: ");
+                    double height = heightScanner.nextDouble();
+                    System.out.print("Enter weight: ");
+                    double weight = weightScanner.nextDouble();
+                    Database.createDefaultMember(membershipID, userName, membershipDate, height, weight);
+                    System.out.println("Member added to database successfully.");
+                } else {
+                    System.out.println("A member with the membership no " + membershipID + " already exists.");
+                }
+            } else if (userType == 2) {
+                System.out.print("Enter membership number: ");
+                int membershipID = idScanner.nextInt();
+                DBObject object1 = Database.findDocumentById(membershipID);
+                if (object1 == null) {
+                    System.out.print("Enter name: ");
+                    String userName = nameScanner.nextLine();
+                    System.out.print("Enter date joined: ");
+                    String membershipDate = dateScanner.nextLine();
+                    System.out.print("Enter height: ");
+                    double height = heightScanner.nextDouble();
+                    System.out.print("Enter weight: ");
+                    double weight = weightScanner.nextDouble();
+                    System.out.print("Enter school: ");
+                    String school = schoolScanner.nextLine();
+                    Database.createStudentMember(membershipID, userName,membershipDate, height, weight, school);
+                    System.out.println("Member added to database successfully.");
+                } else {
+                    System.out.println("A member with the membership no " + membershipID + " already exists.");
+                }
+            } else if (userType == 3) {
+                int age;
+                System.out.print("Enter membership number: ");
+                int membershipID = idScanner.nextInt();
+                DBObject object1 = Database.findDocumentById(membershipID);
+                if (object1 == null) {
+                    System.out.print("Enter name: ");
+                    String userName = nameScanner.nextLine();
+                    System.out.print("Enter date joined: ");
+                    String membershipDate = dateScanner.nextLine();
+                    System.out.print("Enter height: ");
+                    double height = heightScanner.nextDouble();
+                    System.out.print("Enter weight: ");
+                    double weight = weightScanner.nextDouble();
+                    while (true) {
+                        try {
+                            System.out.print("Enter age: ");
+                            age = ageScanner.nextInt();
+                            Database.createOver60Member(membershipID, userName, membershipDate, height, weight, age);
+                            break;
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Age should be above 60.\n");
+                        }
+                    }
+                    System.out.println("Member added to database successfully.");
+                } else {
+                    System.out.println("A member with the membership no " + membershipID + " already exists.");
+                }
+            } else if (userType == 4) {
+                addingMember = false;
+            } else {
+                System.out.println("Invalid input.");
+            }
         }
+
     }
 
     @Override
     public void deleteExistingMember(int id) {
         DB db = Database.connectToDatabase();
         DBCollection collection = db.getCollection("users");
+        DBCursor cursor = collection.find(new BasicDBObject("_id", id));
         DBObject document = Database.findDocumentById(id);
         if (document == null) {
             System.out.println("A member with membership number " + id + " does not exist in the database.");
         } else {
+            String deletedMemberType = (String) cursor.one().get("member-type");
+            String deletedMemberID = (String) cursor.one().get("_id").toString();
             collection.remove(document);
-            System.out.println("Member deleted.");
+            int count = Database.getCount();
+            System.out.println("Member " + deletedMemberID + " was deleted.\n" +
+                    "Deleted MemberType: " + deletedMemberType + "\n" +
+                    "Free spaces left in the system: " + (5 - count));
             deletingMember = false;
         }
     }
