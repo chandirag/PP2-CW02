@@ -32,15 +32,21 @@ public class MyGymManager extends Application implements GymManager  {
         int userSelectedOption = scanner.nextInt();
         switch (userSelectedOption) {
             case 1:
-                addingMember = true;
-                while (addingMember) {
-                    try {
-                        myGymManager.addNewMember();
-                    } catch (InputMismatchException e) {
-                        System.out.println("Invalid input.");
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Age should be above 60 for members of type: Over60");
+                int count = Database.getCount();
+                if (count < 101) {
+                    addingMember = true;
+                    while (addingMember) {
+                        try {
+                            myGymManager.addNewMember();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input.");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Age should be above 60 for members of type: Over60");
+                        }
                     }
+                } else {
+                    System.out.println("Maximum number of 100 members reached. Delete existing members to add" +
+                            " new ones to the database.");
                 }
                 break;
             case 2:

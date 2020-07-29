@@ -191,6 +191,12 @@ public class Database {
         }
         return arrayList;
     }
+
+    public static int getCount(){
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        return (int) col.count();
+    }
 }
 
 
