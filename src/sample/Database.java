@@ -4,6 +4,8 @@ import com.mongodb.*;
 import org.bson.types.ObjectId;
 
 import java.io.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class Database {
     public static DB connectToDatabase() {
@@ -156,6 +158,55 @@ public class Database {
         printWriter.close();
     }
 
+    public static ArrayList<Integer> printID() {
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        DBCursor nameCursor = col.find();
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        while (nameCursor.hasNext()) {
+            arrayList.add(Integer.parseInt(nameCursor.next().get("_id").toString()));
+        }
+        return  arrayList;
+    }
+
+    public static ArrayList<String> printNames() {
+        return createStringListArray("name");
+    }
+
+    public static ArrayList<String> printDateJoined() {
+        return  createStringListArray("membership-date");
+    }
+
+    public static ArrayList<Double> printHeight() {
+        return  createDoubleListArray("height");
+    }
+
+    public static ArrayList<Double> printWeight() {
+        return  createDoubleListArray("weight");
+    }
+
+
+    public static ArrayList<String> createStringListArray(String fieldName) {
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        DBCursor dbCursor = col.find();
+        ArrayList<String> arrayList = new ArrayList<>();
+        while (dbCursor.hasNext()) {
+            arrayList.add(dbCursor.next().get(fieldName).toString());
+        }
+        return arrayList;
+    }
+
+    public static ArrayList<Double> createDoubleListArray(String fieldName) {
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        DBCursor dbCursor = col.find();
+        ArrayList<Double> arrayList = new ArrayList<>();
+        while (dbCursor.hasNext()) {
+            arrayList.add(Double.parseDouble(dbCursor.next().get(fieldName).toString()));
+        }
+        return arrayList;
+    }
 }
 
 

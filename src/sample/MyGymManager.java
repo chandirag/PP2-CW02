@@ -66,6 +66,8 @@ public class MyGymManager extends Application implements GymManager  {
                 myGymManager.saveToFile();
                 break;
             case 6:
+                myGymManager.openGUI();
+                System.exit(0);
                 break;
             case 7:
                 System.out.println("Exiting program...");
@@ -196,17 +198,18 @@ public class MyGymManager extends Application implements GymManager  {
 
     @Override
     public void saveToFile() throws IOException {
-        Database.saveToFile("MemberData.txt", "_id", 1);
+        Database.saveToFile("MemberData.txt", "_id", -1);
         System.out.println("Data saved to file.");
     }
 
     @Override
     public void openGUI() {
-
+        Application.launch();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+       GUI.display();
     }
+
 }
