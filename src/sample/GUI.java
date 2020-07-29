@@ -1,6 +1,5 @@
 package sample;
 
-import com.mongodb.DBCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -20,7 +19,7 @@ public class GUI {
         window.setTitle("Gym Manager");
 
         GridPane startupLayout = new GridPane();
-        startupLayout.setPadding(new Insets(0, 0, 0, 0)); // Padding for elements against the stage border
+        startupLayout.setPadding(new Insets(20, 20, 20, 20)); // Padding for elements against the stage border
         startupLayout.setVgap(10); // Padding for individual cells
         startupLayout.setHgap(10);
 
@@ -53,18 +52,24 @@ public class GUI {
         weightColumn.setMinWidth(90);
         weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
 
+        // Column: Member Type
+        TableColumn<DefaultMember,String> memberTypeColumn = new TableColumn<>("Member Type");
+        memberTypeColumn.setMinWidth(110);
+        memberTypeColumn.setCellValueFactory(new PropertyValueFactory<>("memberType"));
 
 
         table.setItems(getMember());
-        table.getColumns().addAll(idColumn, nameColumn, dateJoinedColumn, heightColumn, weightColumn);
-        startupLayout.getChildren().add(table);
+        table.getColumns().addAll(idColumn, nameColumn, dateJoinedColumn, heightColumn, weightColumn, memberTypeColumn);
+        GridPane.setConstraints(table, 0, 2);
 
-        Scene scene = new Scene(startupLayout, 513, 400);
+        startupLayout.getChildren().add(table);
+        Scene scene = new Scene(startupLayout, 660, 400);
         window.setScene(scene);
         window.show();
     }
 
 
+    // Table View: Member Member Data
     public static ObservableList<DefaultMember> getMember(){
         ObservableList<DefaultMember> members = FXCollections.observableArrayList();
         ArrayList<Integer> membershipNumbers = Database.printID();
@@ -72,12 +77,14 @@ public class GUI {
         ArrayList<String> datesJoined = Database.printDateJoined();
         ArrayList<Double> heights = Database.printHeight();
         ArrayList<Double> weights = Database.printWeight();
-
+        ArrayList<String> memberType = Database.printMemberType();
 
         for (int i=0; i < names.size(); i++) {
             members.add(new DefaultMember(membershipNumbers.get(i), names.get(i), datesJoined.get(i),
-                    heights.get(i), weights.get(i)));
+                    heights.get(i), weights.get(i), memberType.get(i)));
         }
         return members;
     }
+
+
 }

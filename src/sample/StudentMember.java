@@ -5,10 +5,9 @@ public class StudentMember extends DefaultMember {
 
     public StudentMember() {};
 
-    public StudentMember(int membershipNumber, String name, String membershipDate, double height, double weight, String schoolName) {
-        super(membershipNumber, name, membershipDate, height, weight);
+    public StudentMember(int membershipNumber, String name, String membershipDate, double height, double weight, String schoolName, String memberType) {
+        super(membershipNumber, name, membershipDate, height, weight, memberType);
         this.schoolName = schoolName;
-        this.memberType = "Student";
     }
 
     public String getSchoolName() {

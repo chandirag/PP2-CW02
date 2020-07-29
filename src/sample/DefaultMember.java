@@ -9,14 +9,14 @@ public class DefaultMember {
     String memberType;
 
     public DefaultMember() {};
-    public DefaultMember(int membershipNumber, String name, String membershipDate, double height, double weight) {
+    public DefaultMember(int membershipNumber, String name, String membershipDate, double height, double weight, String memberType) {
         super();
         this.membershipNumber = membershipNumber;
         this.name = name;
         this.membershipDate = membershipDate;
         this.weight = weight;
         this.height = height;
-        this.memberType = "Default";
+        this.memberType = memberType;
     }
 
     public int getMembershipNumber() {

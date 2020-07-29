@@ -67,6 +67,7 @@ public class MyGymManager extends Application implements GymManager  {
                 break;
             case 6:
                 myGymManager.openGUI();
+                System.out.println("Exiting program...");
                 System.exit(0);
                 break;
             case 7:
@@ -104,12 +105,12 @@ public class MyGymManager extends Application implements GymManager  {
             if (object1 == null) {
                 System.out.print("Enter name: ");
                 String userName = nameScanner.nextLine();
-                System.out.print("Enter date joined:");
+                System.out.print("Enter date joined: ");
                 String membershipDate = dateScanner.nextLine();
-                System.out.print("Enter height:");
-                int height = heightScanner.nextInt();
-                System.out.print("Enter weight:");
-                int weight = weightScanner.nextInt();
+                System.out.print("Enter height: ");
+                double height = heightScanner.nextDouble();
+                System.out.print("Enter weight: ");
+                double weight = weightScanner.nextDouble();
                 Database.createDefaultMember(membershipID, userName, membershipDate, height, weight);
                 System.out.println("Member added to database successfully.");
             } else {
@@ -122,12 +123,12 @@ public class MyGymManager extends Application implements GymManager  {
             if (object1 == null) {
                 System.out.print("Enter name: ");
                 String userName = nameScanner.nextLine();
-                System.out.print("Enter date joined:");
+                System.out.print("Enter date joined: ");
                 String membershipDate = dateScanner.nextLine();
-                System.out.print("Enter height:");
-                int height = heightScanner.nextInt();
-                System.out.print("Enter weight:");
-                int weight = weightScanner.nextInt();
+                System.out.print("Enter height: ");
+                double height = heightScanner.nextDouble();
+                System.out.print("Enter weight: ");
+                double weight = weightScanner.nextDouble();
                 System.out.print("Enter school: ");
                 String school = schoolScanner.nextLine();
                 Database.createStudentMember(membershipID, userName,membershipDate, height, weight, school);
@@ -143,12 +144,12 @@ public class MyGymManager extends Application implements GymManager  {
             if (object1 == null) {
                 System.out.print("Enter name: ");
                 String userName = nameScanner.nextLine();
-                System.out.print("Enter date joined:");
+                System.out.print("Enter date joined: ");
                 String membershipDate = dateScanner.nextLine();
-                System.out.print("Enter height:");
-                int height = heightScanner.nextInt();
-                System.out.print("Enter weight:");
-                int weight = weightScanner.nextInt();
+                System.out.print("Enter height: ");
+                double height = heightScanner.nextDouble();
+                System.out.print("Enter weight: ");
+                double weight = weightScanner.nextDouble();
                 while (true) {
                     try {
                         System.out.print("Enter age: ");

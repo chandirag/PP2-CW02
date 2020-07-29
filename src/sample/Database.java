@@ -1,10 +1,8 @@
 package sample;
 
 import com.mongodb.*;
-import org.bson.types.ObjectId;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class Database {
@@ -49,12 +47,7 @@ public class Database {
     }
 
     public static DBCollection createDefaultMember(int id, String name, String membershipDate, double height, double weight) {
-        DefaultMember defaultMember = new DefaultMember(id, name, membershipDate, height, weight);
-        defaultMember.setMembershipNumber(id);
-        defaultMember.setName(name);
-        defaultMember.setMembershipDate(membershipDate);
-        defaultMember.setHeight(height);
-        defaultMember.setWeight(weight);
+        DefaultMember defaultMember = new DefaultMember(id, name, membershipDate, height, weight, "Default");
         defaultMember.setMemberType("Default");
         DBObject doc = Database.createDBObject(defaultMember);
         DB db = Database.connectToDatabase();
@@ -64,13 +57,7 @@ public class Database {
     }
 
     public static void createStudentMember(int id, String name, String membershipDate, double height, double weight, String schoolName) {
-        StudentMember studentMember = new StudentMember();
-        studentMember.setMembershipNumber(id);
-        studentMember.setName(name);
-        studentMember.setMembershipDate(membershipDate);
-        studentMember.setHeight(height);
-        studentMember.setWeight(weight);
-        studentMember.setSchoolName(schoolName);
+        StudentMember studentMember = new StudentMember(id, name, membershipDate, height, weight, schoolName, "Student");
         studentMember.setMemberType("Student");
         DBObject doc = Database.createDBObject(studentMember);
         DB db = Database.connectToDatabase();
@@ -79,13 +66,7 @@ public class Database {
     }
 
     public static void createOver60Member(int id, String name, String membershipDate, double height, double weight, int age) {
-        Over60Member over60Member = new Over60Member();
-        over60Member.setMembershipNumber(id);
-        over60Member.setName(name);
-        over60Member.setMembershipDate(membershipDate);
-        over60Member.setHeight(height);
-        over60Member.setWeight(weight);
-        over60Member.setAge(age);
+        Over60Member over60Member = new Over60Member(id, name, membershipDate, height, weight, age, "Over60");
         over60Member.setMemberType("Over60");
         DBObject doc = Database.createDBObject(over60Member);
         DB db = Database.connectToDatabase();
@@ -139,7 +120,7 @@ public class Database {
         DBCursor cursor6 = col.find().sort(new BasicDBObject(object,number));
         DBCursor cursor7 = col.find().sort(new BasicDBObject(object,number));
         DBCursor cursor8 = col.find().sort(new BasicDBObject(object,number));
-        String output = String.format("%-16s %-18s %-15s %-17s %-10s %-10s %-10s %-10s %n", "Membership No", "Membership Type", "Name",
+        String output = String.format("%-16s %-18s %-15s %-17s %-10s %-10s %-15s %-10s %n", "Membership No", "Membership Type", "Name",
                 "Date Joined", "Height", "Weight", "School Name", "Age");
         while (cursor1.hasNext() || cursor2.hasNext() || cursor3.hasNext() || cursor4.hasNext() ||
                 cursor5.hasNext() || cursor6.hasNext() || cursor7.hasNext() || cursor8.hasNext()) {
@@ -151,7 +132,7 @@ public class Database {
             Object weight = cursor6.next().get("weight");
             Object schoolName = cursor7.next().get("school-name");
             Object age = cursor8.next().get("age");
-            fileString.append(String.format("%-16s %-18s %-15s %-17s %-10s %-10s %-10s %-10s %n", id, memberType, name,
+            fileString.append(String.format("%-16s %-18s %-15s %-17s %-10s %-10s %-15s %-10s %n", id, memberType, name,
                     dateJoined, height, weight, schoolName, age));
         }
         printWriter.write(output + "\n" + fileString);
@@ -185,6 +166,9 @@ public class Database {
         return  createDoubleListArray("weight");
     }
 
+    public static ArrayList<String> printMemberType() {
+        return  createStringListArray("member-type");
+    }
 
     public static ArrayList<String> createStringListArray(String fieldName) {
         DB db = Database.connectToDatabase();
