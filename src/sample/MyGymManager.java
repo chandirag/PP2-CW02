@@ -185,7 +185,7 @@ public class MyGymManager extends Application implements GymManager  {
 
     @Override
     public void deleteExistingMember(int id) {
-        DB db = Database.connectToDatabase();
+        DB db = Database.connect();
         DBCollection collection = db.getCollection("users");
         DBCursor cursor = collection.find(new BasicDBObject("_id", id));
         DBObject document = Database.findDocumentById(id);
@@ -205,19 +205,19 @@ public class MyGymManager extends Application implements GymManager  {
 
     @Override
     public void printExistingMembers() {
-        // Print all existing members sorted by Membership No.
+        // Print all existing members sorted in ascending order by Membership No.
         Database.sortAndPrintExistingMembers("_id", 1);
     }
 
     @Override
     public void sort() {
-        // Print all existing members sorted by Name
+        // Print all existing members sorted in ascending order by Name
         Database.sortAndPrintExistingMembers("name", 1);
     }
 
     @Override
     public void saveToFile() throws IOException {
-        Database.saveToFile("MemberData.txt", "_id", -1);
+        Database.saveToFile("MemberData.txt", "_id", 1);
         System.out.println("Data saved to file.");
     }
 

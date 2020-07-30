@@ -1,0 +1,27 @@
+.search-button {
+    -fx-background-color: #4D74DE;
+    -fx-text-fill: white;
+    -fx-font-family: "Futura", sans-serif;
+    -fx-font-weight: bolder;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2), 2, 0.5, 2, 2);
+}
+
+.search-button:hover {
+    -fx-background-color: #3150aa;
+}
+
+.reset-button {
+    -fx-background-color: #cfd8dc;
+    -fx-text-fill: black;
+    -fx-font-family: "Futura", sans-serif;
+    -fx-font-weight: bolder;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2), 2, 0.5, 2, 2);
+}
+
+.reset-button:hover {
+    -fx-background-color: #b0bec5;
+}
+
+.text-field {
+    -fx-font-family: "Futura", sans-serif;
+}

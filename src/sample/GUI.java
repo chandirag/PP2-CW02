@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 public class GUI {
     public static void display() throws FileNotFoundException {
@@ -30,51 +29,34 @@ public class GUI {
         // Creating Table View
         TableView<DefaultMember> table = new TableView<>();
 
-        // Column: Name
-        TableColumn<DefaultMember,String> idColumn = new TableColumn<>("Name");
-        idColumn.setMinWidth(90);
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("membershipNumber"));
+        // Creating Columns
+        TableColumn<DefaultMember,String> idColumn = createTableColumn("Membership No.", 90, "membershipNumber");
+        TableColumn<DefaultMember,String> nameColumn = createTableColumn("Name", 150, "name");
+        TableColumn<DefaultMember,String> dateJoinedColumn = createTableColumn("Date Joined", 90, "membershipDate");
+        TableColumn<DefaultMember,String> heightColumn = createTableColumn("Height", 90, "height");
+        TableColumn<DefaultMember,String> weightColumn = createTableColumn("Weight", 90, "weight");
+        TableColumn<DefaultMember,String> memberTypeColumn = createTableColumn("Member Type", 110, "memberType");
 
-        // Column: Name
-        TableColumn<DefaultMember,String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setMinWidth(150);
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        // Column: Date Joined
-        TableColumn<DefaultMember,String> dateJoinedColumn = new TableColumn<>("Date Joined");
-        dateJoinedColumn.setMinWidth(90);
-        dateJoinedColumn.setCellValueFactory(new PropertyValueFactory<>("membershipDate"));
-
-        // Column: Height
-        TableColumn<DefaultMember,String> heightColumn = new TableColumn<>("Height");
-        heightColumn.setMinWidth(90);
-        heightColumn.setCellValueFactory(new PropertyValueFactory<>("height"));
-
-        // Column: Weight
-        TableColumn<DefaultMember,String> weightColumn = new TableColumn<>("Weight");
-        weightColumn.setMinWidth(90);
-        weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
-
-        // Column: Member Type
-        TableColumn<DefaultMember,String> memberTypeColumn = new TableColumn<>("Member Type");
-        memberTypeColumn.setMinWidth(110);
-        memberTypeColumn.setCellValueFactory(new PropertyValueFactory<>("memberType"));
 
         // Search Field
         TextField searchField = new TextField();
         searchField.setPromptText("Search by name...");
         searchField.minHeight(30);
         searchField.minWidth(100);
+        searchField.getStyleClass().add("textfield");
         GridPane.setConstraints(searchField, 0, 0);
 
         // Search Button
         Button searchButton = new Button("Search");
         GridPane.setConstraints(searchButton, 1, 0);
+        searchButton.getStyleClass().add("search-button");
         searchButton.setOnAction(event -> table.setItems(nameSearch(searchField)));
+
 
         // Reset Button
         Button resetButton = new Button("Reset");
         GridPane.setConstraints(resetButton, 2, 0);
+        resetButton.getStyleClass().add("reset-button");
         resetButton.setOnAction(event -> {
             table.setItems(getMember());
             searchField.setText("");
@@ -86,6 +68,7 @@ public class GUI {
 
         startupLayout.getChildren().addAll(table, searchField, searchButton, resetButton);
         Scene scene = new Scene(startupLayout, 660, 400);
+        scene.getStylesheets().add(GUI.class.getResource("StyleSheet.css").toExternalForm()); // Adding css file to scene
         window.setScene(scene);
         window.show();
     }
@@ -111,28 +94,31 @@ public class GUI {
 
     public static ObservableList<DefaultMember> nameSearch(TextField textField){
         ObservableList<DefaultMember> defaultMembers = FXCollections.observableArrayList();
+        String searchName = Database.toTitleCase(textField.getText());
 
-        try {
-            String searchName = Database.toTitleCase(textField.getText());
-
-            ArrayList<Integer> id = Database.intSearch(Database.readNameTest(searchName),"_id");
-            ArrayList<String> nameArray = Database.stringSearch(Database.readNameTest(searchName),"name");
-            ArrayList<String> joinedDate = Database.stringSearch(Database.readNameTest(searchName),"membership-date");
-            ArrayList<Double> height = Database.doubleSearch(Database.readNameTest(searchName),"height");
-            ArrayList<Double> weight = Database.doubleSearch(Database.readNameTest(searchName),"weight");
-            ArrayList<String> memberType = Database.stringSearch(Database.readNameTest(searchName),"member-type");
-
-            for (int i=0; i <= nameArray.size()-1; i++) {
-                defaultMembers.add(new DefaultMember(id.get(i), nameArray.get(i), joinedDate.get(i),
-                        height.get(i), weight.get(i), memberType.get(i)));
-            }
-
-        }catch (NoSuchElementException e){
-            System.out.println("test");
+        if (searchName.isEmpty()) {
+             return getMember();
         }
-        return defaultMembers;
 
+        ArrayList<Integer> id = Database.intSearch(Database.readNameTest(searchName),"_id");
+        ArrayList<String> nameArray = Database.stringSearch(Database.readNameTest(searchName),"name");
+        ArrayList<String> joinedDate = Database.stringSearch(Database.readNameTest(searchName),"membership-date");
+        ArrayList<Double> height = Database.doubleSearch(Database.readNameTest(searchName),"height");
+        ArrayList<Double> weight = Database.doubleSearch(Database.readNameTest(searchName),"weight");
+        ArrayList<String> memberType = Database.stringSearch(Database.readNameTest(searchName),"member-type");
+
+        for (int i=0; i <= nameArray.size()-1; i++) {
+            defaultMembers.add(new DefaultMember(id.get(i), nameArray.get(i), joinedDate.get(i),
+                    height.get(i), weight.get(i), memberType.get(i)));
+        }
+
+        return defaultMembers;
     }
 
-
+    private static TableColumn<DefaultMember, String> createTableColumn(String columnHeader, int minWidth, String field) {
+        TableColumn<DefaultMember, String> tableColumn = new TableColumn<>(columnHeader);
+        tableColumn.setMinWidth(minWidth);
+        tableColumn.setCellValueFactory(new PropertyValueFactory<>(field));
+        return tableColumn;
+    }
 }
