@@ -199,33 +199,6 @@ public class Database {
         return (int) col.count();
     }
 
-    // Returns all documents with given name
-//    public static DBCursor findDocumentByName(String userInput) {
-//        DB db = Database.connectToDatabase();
-//        DBCollection collection = db.getCollection("users");
-//        DBCursor results = collection.find(new BasicDBObject("name", userInput));
-//
-//        return results;
-//    }
-//
-//
-//    public static ArrayList<String> putResultsIntoArray(DBCursor cursor) {
-//        ArrayList<String> foundNames  = new ArrayList<>();
-//        String name = (String) Objects.requireNonNull(cursor.one()).get("name");
-//        foundNames.add(name);
-//
-//        return foundNames;
-//    }
-
-
-
-
-
-
-
-
-
-
     public static DBObject readNameTest(String name){
         DB db = Database.connectToDatabase();
         DBCollection col = db.getCollection("users");
@@ -270,6 +243,25 @@ public class Database {
         }
         return foundNames;
     }
+
+    public static String toTitleCase(String input) {
+
+        StringBuilder titleCase = new StringBuilder(input.length());
+        boolean nextTitleCase = true;
+
+        for (char c : input.toLowerCase().toCharArray()) {
+            if (!Character.isLetterOrDigit(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            }
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
+    }
 }
+
 
 

@@ -12,7 +12,7 @@ public class DefaultMember {
     public DefaultMember(int membershipNumber, String name, String membershipDate, double height, double weight, String memberType) {
         super();
         this.membershipNumber = membershipNumber;
-        this.name = name;
+        this.name = Database.toTitleCase(name);
         this.membershipDate = membershipDate;
         this.weight = weight;
         this.height = height;
@@ -32,7 +32,7 @@ public class DefaultMember {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.toLowerCase();
     }
 
     public String getMemberType() {

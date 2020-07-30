@@ -71,7 +71,6 @@ public class GUI {
         Button searchButton = new Button("Search");
         GridPane.setConstraints(searchButton, 1, 0);
         searchButton.setOnAction(event -> table.setItems(nameSearch(searchField)));
-//        searchButton.setOnAction(event -> table.setItems(getSearchResults(searchField)));
 
         // Reset Button
         Button resetButton = new Button("Reset");
@@ -110,30 +109,11 @@ public class GUI {
     }
 
 
-//    public static ObservableList<DefaultMember> getSearchResults(TextField textField) {
-//        ObservableList<DefaultMember> members = FXCollections.observableArrayList();
-//
-//        try {
-//            String searchName = textField.getText();
-//
-//            ArrayList<String> nameArray = Database.putResultsIntoArray(Database.findDocumentByName(searchName));
-//
-//            for (int i=0; i < nameArray.size()-1; i++) {
-//                members.add(new DefaultMember(2000, nameArray.get(i), "DATE",
-//                        100, 100, "MEMBER-TYPE"));
-//            }
-//
-//        }catch (NoSuchElementException e){
-//            System.out.println("test");
-//        }
-//        return members;
-//    }
-
     public static ObservableList<DefaultMember> nameSearch(TextField textField){
         ObservableList<DefaultMember> defaultMembers = FXCollections.observableArrayList();
 
         try {
-            String searchName = textField.getText();
+            String searchName = Database.toTitleCase(textField.getText());
 
             ArrayList<Integer> id = Database.intSearch(Database.readNameTest(searchName),"_id");
             ArrayList<String> nameArray = Database.stringSearch(Database.readNameTest(searchName),"name");
@@ -153,4 +133,6 @@ public class GUI {
         return defaultMembers;
 
     }
+
+
 }

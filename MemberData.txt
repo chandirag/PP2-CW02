@@ -1,9 +1,6 @@
 Membership No    Membership Type    Name            Date Joined       Height     Weight     School Name     Age        
 
-2019989          Student            Nadil           22/03/2020        180.0      70.0       Royal           null       
-2019690          Over60             Saman           20/03/2020        180.5      86.5       null            78         
-2019634          Default            Jahzan          29/05/2020        190.0      55.0       null            null       
-2019633          Default            Nisal           03/02/2020        169.0      69.0       null            null       
-2019593          Default            Chandira        22/03/2020        185.0      85.0       null            null       
-2019420          Default            Zebrea          27/07/2020        190.0      77.0       null            null       
-2019333          Default            Google          22/04/2021        190.0      88.0       null            null       
+2019999          Student            Jahzan          11/01/2020        170.0      76.0       DS              null       
+2019888          Default            Chandira        01/01/2020        190.0      80.0       null            null       
+2019633          Student            Nisal           22/02/2020        180.0      50.0       Royal College   null       
+2019593          Default            Chandira        22/02/2020        190.0      75.0       null            null       
