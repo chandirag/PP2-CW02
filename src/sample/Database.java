@@ -4,6 +4,7 @@ import com.mongodb.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Database {
     public static DB connectToDatabase() {
@@ -196,6 +197,78 @@ public class Database {
         DB db = Database.connectToDatabase();
         DBCollection col = db.getCollection("users");
         return (int) col.count();
+    }
+
+    // Returns all documents with given name
+//    public static DBCursor findDocumentByName(String userInput) {
+//        DB db = Database.connectToDatabase();
+//        DBCollection collection = db.getCollection("users");
+//        DBCursor results = collection.find(new BasicDBObject("name", userInput));
+//
+//        return results;
+//    }
+//
+//
+//    public static ArrayList<String> putResultsIntoArray(DBCursor cursor) {
+//        ArrayList<String> foundNames  = new ArrayList<>();
+//        String name = (String) Objects.requireNonNull(cursor.one()).get("name");
+//        foundNames.add(name);
+//
+//        return foundNames;
+//    }
+
+
+
+
+
+
+
+
+
+
+    public static DBObject readNameTest(String name){
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        DBObject query = BasicDBObjectBuilder.start().add("name", name).get();
+        return query;
+    }
+
+
+
+    public static ArrayList<String> stringSearch(DBObject object, String key){
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        DBCursor cursor = col.find(object);
+        ArrayList<String> foundNames = new ArrayList<>();
+        while (cursor.hasNext()) {
+            String searched = cursor.next().get(key).toString();
+            foundNames.add(searched);
+        }
+        return foundNames;
+    }
+
+    public static ArrayList<Integer> intSearch(DBObject object, String key){
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        DBCursor cursor = col.find(object);
+        ArrayList<Integer> foundNames = new ArrayList<>();
+        while (cursor.hasNext()) {
+            int searched = (int) cursor.next().get(key);
+            foundNames.add(searched);
+        }
+        return foundNames;
+    }
+
+    public static ArrayList<Double> doubleSearch(DBObject object, String key){
+        DB db = Database.connectToDatabase();
+        DBCollection col = db.getCollection("users");
+        DBCursor cursor = col.find(object);
+        ArrayList<Double> foundNames = new ArrayList<>();
+        while (cursor.hasNext()) {
+            double searched = (double) cursor.next().get(key);
+            foundNames.add(searched);
+        }
+        return foundNames;
     }
 }
 

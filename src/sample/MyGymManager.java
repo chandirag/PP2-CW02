@@ -193,7 +193,7 @@ public class MyGymManager extends Application implements GymManager  {
             System.out.println("A member with membership number " + id + " does not exist in the database.");
         } else {
             String deletedMemberType = (String) cursor.one().get("member-type");
-            String deletedMemberID = (String) cursor.one().get("_id").toString();
+            String deletedMemberID = cursor.one().get("_id").toString();
             collection.remove(document);
             int count = Database.getCount();
             System.out.println("Member " + deletedMemberID + " was deleted.\n" +
