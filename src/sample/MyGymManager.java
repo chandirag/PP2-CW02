@@ -31,6 +31,7 @@ public class MyGymManager extends Application implements GymManager  {
         int userSelectedOption = scanner.nextInt();
         switch (userSelectedOption) {
             case 1:
+                // Adding new member
                 int count = Database.getCount();
                 if (count < 100) {
                     addingMember = true;
@@ -39,7 +40,7 @@ public class MyGymManager extends Application implements GymManager  {
                             myGymManager.addNewMember();
                         } catch (InputMismatchException e) {
                             System.out.println("Invalid input.");
-                        } catch (IllegalArgumentException e) {
+                        } catch (IllegalArgumentException e) { // Validation for age input
                             System.out.println("Age should be above 60 for members of type: Over60");
                         }
                     }
@@ -49,6 +50,7 @@ public class MyGymManager extends Application implements GymManager  {
                 }
                 break;
             case 2:
+                // Delete Existing member
                 deletingMember = true;
                 while (deletingMember) {
                     Scanner deleteIDScanner = new Scanner(System.in);
@@ -62,20 +64,25 @@ public class MyGymManager extends Application implements GymManager  {
                 }
                 break;
             case 3:
+                // Print list of existing members
                 myGymManager.printExistingMembers();
                 break;
             case 4:
+                // Sort list of existing members by name in ascending order
                 myGymManager.sort();
                 break;
             case 5:
+                // Write/Save in a file list of members with relevant details
                 myGymManager.saveToFile();
                 break;
             case 6:
+                // Open GUI
                 myGymManager.openGUI();
                 System.out.println("Exiting program...");
                 System.exit(0);
                 break;
             case 7:
+                // Exit program
                 System.out.println("Exiting program...");
                 System.exit(0);
             default:
@@ -87,6 +94,7 @@ public class MyGymManager extends Application implements GymManager  {
     public void addNewMember() {
         int count = Database.getCount();
         if (count >= 100) {
+            // Checking if the maximum no. of members has been reached
             System.out.println("Member limit reached.");
             addingMember = false;
         } else {
@@ -109,6 +117,7 @@ public class MyGymManager extends Application implements GymManager  {
             int userType = scanner.nextInt();
 
             if (userType == 1) {
+                // Default Member
                 System.out.print("Enter membership number: ");
                 int membershipID = idScanner.nextInt();
                 DBObject object1 = Database.findDocumentById(membershipID);
@@ -127,6 +136,7 @@ public class MyGymManager extends Application implements GymManager  {
                     System.out.println("A member with the membership no " + membershipID + " already exists.");
                 }
             } else if (userType == 2) {
+                // Student Manager
                 System.out.print("Enter membership number: ");
                 int membershipID = idScanner.nextInt();
                 DBObject object1 = Database.findDocumentById(membershipID);
@@ -147,6 +157,7 @@ public class MyGymManager extends Application implements GymManager  {
                     System.out.println("A member with the membership no " + membershipID + " already exists.");
                 }
             } else if (userType == 3) {
+                // Over60 Member
                 int age;
                 System.out.print("Enter membership number: ");
                 int membershipID = idScanner.nextInt();
@@ -190,6 +201,7 @@ public class MyGymManager extends Application implements GymManager  {
         DBCursor cursor = collection.find(new BasicDBObject("_id", id));
         DBObject document = Database.findDocumentById(id);
         if (document == null) {
+            // Checking if entered id already exists in the database
             System.out.println("A member with membership number " + id + " does not exist in the database.");
         } else {
             String deletedMemberType = (String) cursor.one().get("member-type");
@@ -217,6 +229,7 @@ public class MyGymManager extends Application implements GymManager  {
 
     @Override
     public void saveToFile() throws IOException {
+        // Save all existing members sorted in ascending order by ID
         Database.saveToFile("MemberData.txt", "_id", 1);
         System.out.println("Data saved to file.");
     }
