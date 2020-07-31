@@ -10,7 +10,7 @@ public class Database {
     // Connect to local mongodb Database
     public static DB connect() {
         MongoClient mongoClient = new MongoClient("localhost", 27017);
-        return mongoClient.getDB("test2");
+        return mongoClient.getDB("GymDatabase");
     }
 
 
@@ -55,7 +55,7 @@ public class Database {
         defaultMember.setMemberType("Default");
         DBObject doc = Database.createMongoDocument(defaultMember);
         DB db = Database.connect();
-        DBCollection collection = db.getCollection("users");
+        DBCollection collection = db.getCollection("members");
         collection.insert(doc);
         return collection;
     }
@@ -66,7 +66,7 @@ public class Database {
         studentMember.setMemberType("Student");
         DBObject doc = Database.createMongoDocument(studentMember);
         DB db = Database.connect();
-        DBCollection collection = db.getCollection("users");
+        DBCollection collection = db.getCollection("members");
         collection.insert(doc);
     }
 
@@ -76,7 +76,7 @@ public class Database {
         over60Member.setMemberType("Over60");
         DBObject doc = Database.createMongoDocument(over60Member);
         DB db = Database.connect();
-        DBCollection collection = db.getCollection("users");
+        DBCollection collection = db.getCollection("members");
         collection.insert(doc);
     }
 
@@ -85,14 +85,14 @@ public class Database {
         BasicDBObject query = new BasicDBObject();
         query.put("_id", id);
         DB db = Database.connect();
-        DBCollection collection = db.getCollection("users");
+        DBCollection collection = db.getCollection("members");
         return collection.findOne(query);
     }
 
 
     public static void sortAndPrintExistingMembers(String object, int order){
         DB db = Database.connect();
-        DBCollection col = db.getCollection("users");
+        DBCollection col = db.getCollection("members");
         DBCursor idCursor = col.find().sort(new BasicDBObject(object,order));
         DBCursor memberTypeCursor = col.find().sort(new BasicDBObject(object,order));
         DBCursor nameCursor = col.find().sort(new BasicDBObject(object,order));
@@ -119,7 +119,7 @@ public class Database {
         PrintWriter printWriter = new PrintWriter(file);
         DB db = Database.connect();
         StringBuilder fileString= new StringBuilder();
-        DBCollection col = db.getCollection("users");
+        DBCollection col = db.getCollection("members");
         DBCursor idCursor = col.find().sort(new BasicDBObject(object,order));
         DBCursor nameCursor = col.find().sort(new BasicDBObject(object,order));
         DBCursor memberTypeCursor = col.find().sort(new BasicDBObject(object,order));
@@ -150,7 +150,7 @@ public class Database {
     // Gets value of field '_id' and adds them to an ArrayList
     public static ArrayList<Integer> printID() {
         DB db = Database.connect();
-        DBCollection col = db.getCollection("users");
+        DBCollection col = db.getCollection("members");
         DBCursor nameCursor = col.find();
         ArrayList<Integer> arrayList = new ArrayList<>();
         while (nameCursor.hasNext()) {
@@ -189,7 +189,7 @@ public class Database {
     // Gets current count of entered members
     public static int getCount() {
         DB db = Database.connect();
-        DBCollection col = db.getCollection("users");
+        DBCollection col = db.getCollection("members");
         return (int) col.count();
     }
 
@@ -202,7 +202,7 @@ public class Database {
     // Returns a string array with results matching passed object and key
     public static ArrayList<String> stringSearch(DBObject object, String key){
         DB db = Database.connect();
-        DBCollection col = db.getCollection("users");
+        DBCollection col = db.getCollection("members");
         DBCursor dbCursor = col.find(object);
         ArrayList<String> list = new ArrayList<>();
         while (dbCursor.hasNext()) {
@@ -215,7 +215,7 @@ public class Database {
     // Returns a integer array with results matching passed object and key
     public static ArrayList<Integer> intSearch(DBObject object, String key){
         DB db = Database.connect();
-        DBCollection col = db.getCollection("users");
+        DBCollection col = db.getCollection("members");
         DBCursor cursor = col.find(object);
         ArrayList<Integer> foundNames = new ArrayList<>();
         while (cursor.hasNext()) {
@@ -228,7 +228,7 @@ public class Database {
     // Returns a double array with results matching passed object and key
     public static ArrayList<Double> doubleSearch(DBObject object, String key){
         DB db = Database.connect();
-        DBCollection col = db.getCollection("users");
+        DBCollection col = db.getCollection("members");
         DBCursor cursor = col.find(object);
         ArrayList<Double> foundNames = new ArrayList<>();
         while (cursor.hasNext()) {
@@ -258,7 +258,7 @@ public class Database {
 
     private static ArrayList<String> createStringListArray(String fieldName) {
         DB db = Database.connect();
-        DBCollection col = db.getCollection("users");
+        DBCollection col = db.getCollection("members");
         DBCursor dbCursor = col.find();
         ArrayList<String> arrayList = new ArrayList<>();
         while (dbCursor.hasNext()) {
@@ -270,7 +270,7 @@ public class Database {
 
     private static ArrayList<Double> createDoubleListArray(String fieldName) {
         DB db = Database.connect();
-        DBCollection col = db.getCollection("users");
+        DBCollection col = db.getCollection("members");
         DBCursor dbCursor = col.find();
         ArrayList<Double> arrayList = new ArrayList<>();
         while (dbCursor.hasNext()) {

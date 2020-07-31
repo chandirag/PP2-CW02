@@ -46,6 +46,7 @@ public class GUI {
         searchField.getStyleClass().add("textfield");
         GridPane.setConstraints(searchField, 0, 0);
 
+
         // Search Button
         Button searchButton = new Button("Search");
         GridPane.setConstraints(searchButton, 1, 0);
@@ -61,6 +62,9 @@ public class GUI {
             table.setItems(getMember());
             searchField.setText("");
         });
+//        searchField.setOnKeyTyped(event -> {
+//            table.setItems(nameSearch(searchField));
+//        });
 
         table.setItems(getMember());
         table.getColumns().addAll(idColumn, nameColumn, dateJoinedColumn, heightColumn, weightColumn, memberTypeColumn);
@@ -71,6 +75,8 @@ public class GUI {
         scene.getStylesheets().add(GUI.class.getResource("StyleSheet.css").toExternalForm()); // Adding css file to scene
         window.setScene(scene);
         window.show();
+
+
     }
 
 

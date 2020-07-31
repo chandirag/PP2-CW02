@@ -6,7 +6,7 @@ public class DefaultMember {
     private String membershipDate;
     private double weight;
     private double height;
-    String memberType;
+    private String memberType;
 
     public DefaultMember() {};
     public DefaultMember(int membershipNumber, String name, String membershipDate, double height, double weight, String memberType) {

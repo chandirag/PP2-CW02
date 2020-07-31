@@ -197,7 +197,7 @@ public class MyGymManager extends Application implements GymManager  {
     @Override
     public void deleteExistingMember(int id) {
         DB db = Database.connect();
-        DBCollection collection = db.getCollection("users");
+        DBCollection collection = db.getCollection("members");
         DBCursor cursor = collection.find(new BasicDBObject("_id", id));
         DBObject document = Database.findDocumentById(id);
         if (document == null) {
