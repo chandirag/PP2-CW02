@@ -30,7 +30,7 @@ public class GUI {
         TableView<DefaultMember> table = new TableView<>();
 
         // Creating Columns
-        TableColumn<DefaultMember,String> idColumn = createTableColumn("Membership No.", 90, "membershipNumber");
+        TableColumn<DefaultMember,String> idColumn = createTableColumn("Membership No.", 120, "membershipNumber");
         TableColumn<DefaultMember,String> nameColumn = createTableColumn("Name", 150, "name");
         TableColumn<DefaultMember,String> dateJoinedColumn = createTableColumn("Date Joined", 90, "membershipDate");
         TableColumn<DefaultMember,String> heightColumn = createTableColumn("Height", 90, "height");
@@ -68,7 +68,7 @@ public class GUI {
         GridPane.setConstraints(table, 0, 2, 4, 1);
 
         startupLayout.getChildren().addAll(table, searchField, searchButton, resetButton);
-        Scene scene = new Scene(startupLayout, 660, 400);
+        Scene scene = new Scene(startupLayout, 700, 400);
         scene.getStylesheets().add(GUI.class.getResource("StyleSheet.css").toExternalForm()); // Adding css file to scene
         window.setScene(scene);
         window.show();
