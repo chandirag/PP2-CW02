@@ -51,7 +51,7 @@ public class GUI {
         Button searchButton = new Button("Search");
         GridPane.setConstraints(searchButton, 1, 0);
         searchButton.getStyleClass().add("search-button");
-        searchButton.setOnAction(event -> table.setItems(nameSearch(searchField)));
+        searchButton.setOnAction(event -> table.setItems(searchForName(searchField)));
 
 
         // Reset Button
@@ -59,14 +59,11 @@ public class GUI {
         GridPane.setConstraints(resetButton, 2, 0);
         resetButton.getStyleClass().add("reset-button");
         resetButton.setOnAction(event -> {
-            table.setItems(getMember());
+            table.setItems(getMemberData());
             searchField.setText("");
         });
-//        searchField.setOnKeyTyped(event -> {
-//            table.setItems(nameSearch(searchField));
-//        });
 
-        table.setItems(getMember());
+        table.setItems(getMemberData());
         table.getColumns().addAll(idColumn, nameColumn, dateJoinedColumn, heightColumn, weightColumn, memberTypeColumn);
         GridPane.setConstraints(table, 0, 2, 4, 1);
 
@@ -80,8 +77,8 @@ public class GUI {
     }
 
 
-    // Table View: Member Member Data
-    public static ObservableList<DefaultMember> getMember() {
+    // Display member data
+    public static ObservableList<DefaultMember> getMemberData() {
         ObservableList<DefaultMember> members = FXCollections.observableArrayList();
         ArrayList<Integer> membershipNumbers = Database.printID();
         ArrayList<String> names = Database.printNames();
@@ -98,24 +95,26 @@ public class GUI {
     }
 
 
-    public static ObservableList<DefaultMember> nameSearch(TextField textField){
+    // Display results matching search query
+    public static ObservableList<DefaultMember> searchForName(TextField textField){
         ObservableList<DefaultMember> defaultMembers = FXCollections.observableArrayList();
         String searchName = Database.toTitleCase(textField.getText());
 
+        // If user presses Search Button when text field is empty show all data
         if (searchName.isEmpty()) {
-             return getMember();
+             return getMemberData();
         }
 
-        ArrayList<Integer> id = Database.intSearch(Database.readNameTest(searchName),"_id");
-        ArrayList<String> nameArray = Database.stringSearch(Database.readNameTest(searchName),"name");
-        ArrayList<String> joinedDate = Database.stringSearch(Database.readNameTest(searchName),"membership-date");
-        ArrayList<Double> height = Database.doubleSearch(Database.readNameTest(searchName),"height");
-        ArrayList<Double> weight = Database.doubleSearch(Database.readNameTest(searchName),"weight");
-        ArrayList<String> memberType = Database.stringSearch(Database.readNameTest(searchName),"member-type");
+        ArrayList<Integer> membershipNosArray = Database.intSearch(Database.getSearchInput(searchName),"_id");
+        ArrayList<String> namesArray = Database.stringSearch(Database.getSearchInput(searchName),"name");
+        ArrayList<String> membershipDatesArray = Database.stringSearch(Database.getSearchInput(searchName),"membership-date");
+        ArrayList<Double> heightsArray = Database.doubleSearch(Database.getSearchInput(searchName),"height");
+        ArrayList<Double> weightsArray = Database.doubleSearch(Database.getSearchInput(searchName),"weight");
+        ArrayList<String> memberTypesArray = Database.stringSearch(Database.getSearchInput(searchName),"member-type");
 
-        for (int i=0; i <= nameArray.size()-1; i++) {
-            defaultMembers.add(new DefaultMember(id.get(i), nameArray.get(i), joinedDate.get(i),
-                    height.get(i), weight.get(i), memberType.get(i)));
+        for (int i=0; i <= namesArray.size()-1; i++) {
+            defaultMembers.add(new DefaultMember(membershipNosArray.get(i), namesArray.get(i), membershipDatesArray.get(i),
+                    heightsArray.get(i), weightsArray.get(i), memberTypesArray.get(i)));
         }
 
         return defaultMembers;

@@ -187,16 +187,15 @@ public class Database {
 
 
     // Gets current count of entered members
-    public static int getCount() {
+    public static int getDocumentCount() {
         DB db = Database.connect();
         DBCollection col = db.getCollection("members");
         return (int) col.count();
     }
 
     // Gets search query from user and returns it
-    public static DBObject readNameTest(String name) {
-        DBObject dbObject = new BasicDBObject("name", name).append("name", new BasicDBObject("$regex", name));
-        return dbObject;
+    public static DBObject getSearchInput(String name) {
+        return new BasicDBObject("name", name).append("name", new BasicDBObject("$regex", name));
     }
 
     // Returns a string array with results matching passed object and key
@@ -239,21 +238,20 @@ public class Database {
     }
 
     // Convert entered String to Title Case
-    public static String toTitleCase(String word) {
-        StringBuilder titleCase = new StringBuilder(word.length());
+    public static String toTitleCase(String sentence) {
+        StringBuilder titleCaseSentence = new StringBuilder(sentence.length());
         boolean nextTitleCase = true;
-        for (char character : word.toLowerCase().toCharArray()) {
+        for (char character : sentence.toLowerCase().toCharArray()) {
             if (!Character.isLetterOrDigit(character)) {
                 nextTitleCase = true;
             } else if (nextTitleCase) {
                 character = Character.toTitleCase(character);
                 nextTitleCase = false;
             }
-            titleCase.append(character);
+            titleCaseSentence.append(character);
         }
-        return titleCase.toString();
+        return titleCaseSentence.toString();
     }
-
 
 
     private static ArrayList<String> createStringListArray(String fieldName) {

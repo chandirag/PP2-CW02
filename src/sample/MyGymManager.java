@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MyGymManager extends Application implements GymManager  {
+public class MyGymManager extends Application implements GymManager {
     private static boolean addingMember;
     private static boolean deletingMember;
 
@@ -32,7 +32,7 @@ public class MyGymManager extends Application implements GymManager  {
         switch (userSelectedOption) {
             case 1:
                 // Adding new member
-                int count = Database.getCount();
+                int count = Database.getDocumentCount();
                 if (count < 100) {
                     addingMember = true;
                     while (addingMember) {
@@ -92,7 +92,7 @@ public class MyGymManager extends Application implements GymManager  {
 
     @Override
     public void addNewMember() {
-        int count = Database.getCount();
+        int count = Database.getDocumentCount();
         if (count >= 100) {
             // Checking if the maximum no. of members has been reached
             System.out.println("Member limit reached.");
@@ -207,7 +207,7 @@ public class MyGymManager extends Application implements GymManager  {
             String deletedMemberType = (String) cursor.one().get("member-type");
             String deletedMemberID = cursor.one().get("_id").toString();
             collection.remove(document);
-            int count = Database.getCount();
+            int count = Database.getDocumentCount();
             System.out.println("Member " + deletedMemberID + " was deleted.\n" +
                     "Deleted MemberType: " + deletedMemberType + "\n" +
                     "Free spaces left in the system: " + (100 - count));
