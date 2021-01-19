@@ -13,3 +13,10 @@ The program has the following functionality:
 ### GUI
 1. Display list of existing members
 2. Search functionality to search through the database by Member Name
+
+Data is saved to a MongoDB database.
+
+## Used Versions  
+  
+* [Mongo Java Driver: 3.12.6](https://mongodb.github.io/mongo-java-driver/)  
+* [JDK 8: v1.8.0.251 ](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
